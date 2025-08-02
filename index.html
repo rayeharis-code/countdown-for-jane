@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>倒计时页面</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: 4em;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown">加载中...</div>
+
+  <script>
+    function getNextTargetDate() {
+      const now = new Date();
+      const year = now.getMonth() > 7 || (now.getMonth() === 7 && now.getDate() > 17)
+        ? now.getFullYear() + 1
+        : now.getFullYear();
+      return new Date(`${year}-08-17T00:00:00`);
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const target = getNextTargetDate();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").innerText = "时间到了！";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").innerText =
+        `距离 ${target.getFullYear()} 年 8 月 17 日还有 ${days} 天 ${hours} 时 ${minutes} 分 ${seconds} 秒`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
